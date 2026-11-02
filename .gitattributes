@@ -1,0 +1,20 @@
+* text=auto
+
+# Keep LF for everything that runs on Linux (CI) or is parsed by Gradle/yaml
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.sh     text eol=lf
+*.kt     text eol=lf
+*.kts    text eol=lf
+*.java   text eol=lf
+*.xml    text eol=lf
+*.md     text eol=lf
+*.properties text eol=lf
+
+# Windows scripts keep CRLF and stay ASCII-only
+*.ps1    text eol=crlf
+
+# Binary
+*.keystore binary
+*.jar      binary
+*.apk      binary
