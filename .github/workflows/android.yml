@@ -62,8 +62,8 @@ jobs:
           git config user.email "ci-bot@users.noreply.github.com"
           git checkout -B ci-logs
           mkdir -p docs
-          cp build.log docs/ci-build.log || true
-          git add -A
+          if [ -f build.log ]; then cp build.log docs/ci-build.txt; else echo "build.log missing" > docs/ci-build.txt; fi
+          git add -f docs/ci-build.txt
           git commit -m "ci: build log for run ${GITHUB_RUN_ID}" || true
           git push -f origin ci-logs
 
