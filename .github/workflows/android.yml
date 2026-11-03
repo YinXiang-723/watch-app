@@ -50,7 +50,22 @@ jobs:
           gradle-version: '8.9'
 
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+
+      # 失败时把完整构建日志推到 ci-logs 分支，便于在没登录的情况下排查
+      - name: Publish build log on failure
+        if: failure()
+        run: |
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
+          git checkout -B ci-logs
+          mkdir -p docs
+          cp build.log docs/ci-build.log || true
+          git add -A
+          git commit -m "ci: build log for run ${GITHUB_RUN_ID}" || true
+          git push -f origin ci-logs
 
       - name: Show APK
         run: ls -lh app/build/outputs/apk/debug/

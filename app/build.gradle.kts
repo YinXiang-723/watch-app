@@ -48,12 +48,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     lint {
         abortOnError = false
+    }
+}
+
+// Kotlin 2.x 用 compilerOptions（kotlinOptions 已废弃），必须和 Java 的 17 对齐，
+// 否则会报 "Inconsistent JVM-target compatibility"。
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
