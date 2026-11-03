@@ -1,10 +1,12 @@
 # WatchDemo — 小米手表5（M2501W1）云端编译最小工程
 
 第一阶段目标只有一个：**用 GitHub Actions 编译，本机用 adb 装上手表并跑起来**。
-所以这一版刻意做到"最不容易挂"：Java + 原生 View，零 AndroidX、零 Kotlin、零 Compose。
 
-> ✅ **2026-11-03 已在真机跑通**：`v0.1.0` 的 APK 装到 M2501W1 上，`Displayed +1s169ms`，界面与计次按钮正常。
-> 记录见 [`docs/verify-2026-11-03.md`](docs/verify-2026-11-03.md)，截图 [`docs/screen-0.1.0.png`](docs/screen-0.1.0.png)。
+> ✅ **2026-11-03 已在真机跑通两次**
+> - `v0.1.0`：**Java + 原生 View**，APK 9,657 B，`Displayed +1s169ms` → [记录](docs/verify-2026-11-03.md) / [截图](docs/screen-0.1.0.png)
+> - `v0.2.3`：**Kotlin 2.1.0 + Compose for Wear OS 1.4.1**，APK 20.1 MB（debug 未裁 ABI），`Displayed +3s143ms` → [记录](docs/verify-compose-2026-11-03.md) / [截图](docs/screen-0.2.3.png)
+>
+> 两条路线都可用；Compose 版用 Wear Material 的 `Scaffold`/`TimeText`/圆形 `Button`，观感更接近原生手表应用。
 
 ## 目录
 
