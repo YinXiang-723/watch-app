@@ -34,8 +34,16 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         release {
-            isMinifyEnabled = false
-            // 需要正式发布时再加 release signingConfig（用 secrets 注入，不要提交 keystore）
+            // R8 代码裁剪 + 资源裁剪：Compose debug 包的 20 MB 主要就是这些没被裁掉的库代码
+            isMinifyEnabled = true
+            isShrinkResources = true
+            // 内测：用 debug 证书签名，和已安装的 debug 包同签名，可直接覆盖安装。
+            // 正式发布请换成正式 keystore（用 secrets 注入，不要把正式 key 提交进仓库）。
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
