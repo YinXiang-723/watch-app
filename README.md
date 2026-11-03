@@ -2,11 +2,12 @@
 
 第一阶段目标只有一个：**用 GitHub Actions 编译，本机用 adb 装上手表并跑起来**。
 
-> ✅ **2026-11-03 已在真机跑通两次**
+> ✅ **2026-11-03 已在真机跑通三次**
 > - `v0.1.0`：**Java + 原生 View**，APK 9,657 B，`Displayed +1s169ms` → [记录](docs/verify-2026-11-03.md) / [截图](docs/screen-0.1.0.png)
-> - `v0.2.3`：**Kotlin 2.1.0 + Compose for Wear OS 1.4.1**，APK 20.1 MB（debug 未裁 ABI），`Displayed +3s143ms` → [记录](docs/verify-compose-2026-11-03.md) / [截图](docs/screen-0.2.3.png)
+> - `v0.2.3`：**Kotlin 2.1.0 + Compose for Wear OS 1.4.1**（debug，未裁剪），APK 20.1 MB，`Displayed +3s143ms` → [记录](docs/verify-compose-2026-11-03.md) / [截图](docs/screen-0.2.3.png)
+> - `v0.3.0`：同一份 Compose 代码的 **R8 release 包**，APK **1.28 MB（-93.3%）**，`Displayed +463ms` → [记录](docs/verify-release-2026-11-03.md) / [截图](docs/screen-0.3.0-release.png)
 >
-> 两条路线都可用；Compose 版用 Wear Material 的 `Scaffold`/`TimeText`/圆形 `Button`，观感更接近原生手表应用。
+> 结论：Compose 的"体积/启动"开销主要来自 debug 不裁剪；开启 R8 后与手写 View 的差距大幅缩小。
 
 ## 目录
 
