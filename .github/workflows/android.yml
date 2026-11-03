@@ -11,7 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -23,13 +23,25 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install platform 34 / build-tools
+      # 不再依赖 android-actions/setup-android：
+      # GitHub 的 ubuntu 镜像本来就预装 Android SDK，直接复用 + sdkmanager 补装更稳。
+      - name: Ensure Android SDK 34
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          set -x
+          SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          echo "SDK=$SDK"
+          ls "$SDK" 2>/dev/null || true
+          ls "$SDK/platforms" 2>/dev/null || true
+          SM="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SM" ]; then
+            SM="$(command -v sdkmanager || true)"
+          fi
+          echo "SM=$SM"
+          if [ ! -d "$SDK/platforms/android-34" ]; then
+            yes | "$SM" --licenses > /dev/null 2>&1 || true
+            "$SM" "platforms;android-34" "build-tools;34.0.0"
+          fi
+          ls "$SDK/platforms" 2>/dev/null || true
 
       - name: Set up Gradle 8.9
         uses: gradle/actions/setup-gradle@v4
