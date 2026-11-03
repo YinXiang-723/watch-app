@@ -3,6 +3,9 @@
 第一阶段目标只有一个：**用 GitHub Actions 编译，本机用 adb 装上手表并跑起来**。
 所以这一版刻意做到"最不容易挂"：Java + 原生 View，零 AndroidX、零 Kotlin、零 Compose。
 
+> ✅ **2026-11-03 已在真机跑通**：`v0.1.0` 的 APK 装到 M2501W1 上，`Displayed +1s169ms`，界面与计次按钮正常。
+> 记录见 [`docs/verify-2026-11-03.md`](docs/verify-2026-11-03.md)，截图 [`docs/screen-0.1.0.png`](docs/screen-0.1.0.png)。
+
 ## 目录
 
 ```
