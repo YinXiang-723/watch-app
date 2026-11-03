@@ -1,5 +1,7 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -10,10 +12,8 @@ android {
         applicationId = "com.example.watchdemo"
         minSdk = 30
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-        // 第二阶段加 Compose/AndroidX 后，如需 native 库再启用：
-        // ndk { abiFilters += "armeabi-v7a" }   // 实测手表只有 32 位 ABI
+        versionCode = 2
+        versionName = "1.1-compose"
     }
 
     signingConfigs {
@@ -39,20 +39,32 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     lint {
-        // 第一版不因 lint 失败而中断 CI
         abortOnError = false
     }
 }
 
-// 第一阶段刻意不引任何依赖：零 AndroidX、零 Kotlin、零 Compose，
-// 目的是先让「云端编译 → 装表 → 启动」这条链路稳定跑通。
 dependencies {
+    // Compose for Wear OS（Material 2 版组件，1.4.1 只要求 compileSdk 34）
+    implementation("androidx.wear.compose:compose-material:1.4.1")
+    implementation("androidx.wear.compose:compose-foundation:1.4.1")
+
+    // setContent / 生命周期
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.core:core-ktx:1.13.1")
 }
 
 // 源码里有中文（界面文案），显式指定 UTF-8，避免 Windows 本地构建时按 GBK 解码报错。
