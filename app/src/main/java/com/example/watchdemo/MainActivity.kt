@@ -34,13 +34,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                Scaffold(timeText = { TimeText() }) { padding ->
+                // Wear Material（M2）的 Scaffold：content 是无参 @Composable，不像 M3 那样给 PaddingValues
+                Scaffold(timeText = { TimeText() }) {
                     var count by remember { mutableIntStateOf(0) }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(padding)
-                            .padding(horizontal = 8.dp),
+                            .padding(horizontal = 8.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
